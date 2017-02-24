@@ -1,0 +1,26 @@
+.music-list-row{
+	position: relative;
+	border-bottom: 1px solid #e8e8e8;
+	padding: 7px 10px 3px;
+}
+.music-list-row .music-list-textrow{
+	height: 20px;
+	line-height: 20px;
+}
+.music-list-row .music-list-songname{
+	font-size: 14px;
+}
+.music-list-row .music-list-auther{
+	font-size: 12px;
+	color: #666;
+}
+.music-list-row .music-list-btn{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #adadad;
+}

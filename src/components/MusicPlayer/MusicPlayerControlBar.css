@@ -1,0 +1,33 @@
+.music-player-control-bar{
+	display: flex;
+	display:-webikit-flex;
+	justify-content:center;
+	align-items:center;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 8px 0px;
+	z-index: 10;
+}
+.music-player-control-bar .music-player-btnmode,
+.music-player-control-bar .music-player-btnlist{
+	margin: 0 10px;
+}
+.music-player-control-bar .music-player-btnmode i,
+.music-player-control-bar .music-player-btnlist i{
+	font-size: 22px;
+	color: #d4d4d4;
+}
+.music-player-control-bar .music-player-btnprev,
+.music-player-control-bar .music-player-btnnext{
+	margin: 0 20px;
+}
+.music-player-control-bar .music-player-btnprev i,
+.music-player-control-bar .music-player-btnnext i{
+	font-size: 30px;
+	color: #FFF;
+}
+.music-player-control-bar .music-player-btnplay i{
+	font-size: 44px;
+	color: #FFF;
+}
