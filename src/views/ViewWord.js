@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import MusicPlayer from '../components/MusicPlayer/MusicPlayer.js'
+import {setMusicPlay} from '../share/MusicPlayerControlRedux.js'
 
-require('./Home.css');
+require('./ViewWord.css');
 
 @connect(state => {
   return {
@@ -13,8 +14,9 @@ require('./Home.css');
   };
 }, {
   push,
+  setMusicPlay
 })
-export default class Home extends Component{
+export default class ViewWord extends Component{
 
 	componentWillMount(){
 		
@@ -24,8 +26,8 @@ export default class Home extends Component{
 
 
 		return (
-			<div className="music-home">
-				<MusicPlayer />
+			<div className="music-viewword">
+				<MusicPlayer {...this.props} />
 			</div>
 		)
 	}

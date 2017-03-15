@@ -8,6 +8,7 @@ import routes from './routes/index.js';
 import DevTools from './redux/DevTools';
 
 import normalize from 'normalize.css'
+require('./index.css')
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
 require('./MusicPlayerWord.css')
 
 export default class MusicPlayerWord extends Component {
@@ -76,12 +75,11 @@ export default class MusicPlayerWord extends Component {
 	}
 
 	componentDidMount(){
-		this.fetchLyric()
+		//this.fetchLyric()
 	}
 
 	render(){
 		const word = this.renderWord()
-		console.log(word)
 		return (
 			<div className="music-player-word">
 				{word}
