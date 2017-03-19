@@ -9,7 +9,9 @@ import {fetchMusicList,fetchMusic,setMusicStatus} from '../share/MusicPlayerCont
     musiclist: state.home.music.musiclist,
     mode: state.home.music.mode,
     musicplay: state.home.music.musicplay,
-    musicstatus:state.home.music.musicstatus
+    musicprev: state.home.music.musicprev,
+    musicnext: state.home.music.musicnext,
+    musicstatus:state.home.music.musicstatus,
   };
 }, {
   push,
@@ -25,14 +27,14 @@ export default class MusicPlayerControl extends Component{
 		this.props.fetchMusicList();
 	}
 
-	playNextMusic = ()=>{
+	playNextMusic = (statu = 1)=>{
 		const {
 			mode
 		} = this.props;
 		switch(mode){
 			case 'LOOP':
 			console.log('当前模式：循环模式')
-			this.musicModeLoop()
+			this.musicModeLoop(statu)
 			break;
 
 			case 'RANDOM':
@@ -42,18 +44,19 @@ export default class MusicPlayerControl extends Component{
 	
 			default:
 			console.log('当前模式异常')
-			this.musicModeLoop()
+			this.musicModeLoop(statu)
 			break;
 		}
 	}
 
-	musicModeLoop(){
+	musicModeLoop(statu = 1){
 		const {
 			musiclist,
 			fetchMusic,
 		} = this.props;
 		let {onindex} = this.state;
-		onindex == musiclist.privileges.length-1?onindex=0:onindex+=1;
+		if(statu)onindex == musiclist.privileges.length-1?onindex=0:onindex+=1;
+		else{onindex == 0?onindex=musiclist.privileges.length-1:onindex-=1;}
 		this.setState({onindex})
 		fetchMusic(musiclist.privileges[onindex].id)
 	}
@@ -75,6 +78,16 @@ export default class MusicPlayerControl extends Component{
 	}
 
 	shouldComponentUpdate(props,state){
+		/*播放上一首歌曲*/
+		if(this.props.musicprev != props.musicprev){
+			this.playNextMusic(0)
+			return false
+		};
+		/*播放下一首歌曲*/
+		if(this.props.musicnext != props.musicnext){
+			this.playNextMusic()
+			return false
+		};
 		/*更新歌曲列表不渲染*/
 		if(this.props.musiclist.privileges.length != props.musiclist.privileges.length){return false;}
 		/*setState更新onindex时不渲染*/

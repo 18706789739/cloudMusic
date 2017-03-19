@@ -3,8 +3,10 @@ const initialState = {
 	musiclist:{
 		privileges:[]
 	},
-	mode: 'RANDOM',
-	musicplay:new Date().valueOf(),
+	mode: 'LOOP',
+	musicplay:0,
+	musicnext:0,
+	musicprev:0,
 	musicstatus:true
 }
 
@@ -40,14 +42,14 @@ export function setMusicMode(mode) {
 export function setMusicNext(o) {
 	return {
 		type: SET_MUSIC_NEXT,
-		payload: o
+		payload: new Date().valueOf()
 	}
 }
 
 export function setMusicPrev(o) {
 	return {
 		type: SET_MUSIC_PREV,
-		payload: o
+		payload: new Date().valueOf()
 	}
 }
 
@@ -122,10 +124,10 @@ export const fetchMusic = (id) => dispatch => {
 		dispatch(setMusic(json.data[0]))
 	})
 }
-
+/*537532773*/
 /*获取歌单*/
 export const fetchMusicList = () => dispatch => {
-	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=537532773')
+	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=471199291')
 		.then(response => response.json())
 		.then(json => {
 			/*获取到歌单放进state*/

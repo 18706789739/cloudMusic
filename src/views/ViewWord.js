@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import MusicPlayer from '../components/MusicPlayer/MusicPlayer.js'
-import {setMusicPlay} from '../share/MusicPlayerControlRedux.js'
+import {setMusicPlay,setMusicMode,setMusicNext,setMusicPrev} from '../share/MusicPlayerControlRedux.js'
 
 require('./ViewWord.css');
 
@@ -14,7 +14,10 @@ require('./ViewWord.css');
   };
 }, {
   push,
-  setMusicPlay
+  setMusicPlay,
+  setMusicMode,
+  setMusicNext,
+  setMusicPrev,
 })
 export default class ViewWord extends Component{
 
