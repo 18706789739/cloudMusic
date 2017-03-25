@@ -88,6 +88,9 @@ export default class MusicPlayerControl extends Component{
 			this.playNextMusic()
 			return false
 		};
+		if(this.props.music != props.music){
+			return true;
+		}
 		/*更新歌曲列表不渲染*/
 		if(this.props.musiclist.privileges.length != props.musiclist.privileges.length){return false;}
 		/*setState更新onindex时不渲染*/
@@ -111,6 +114,7 @@ export default class MusicPlayerControl extends Component{
 
 	componentDidMount(){
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
+		this.refs.myAudio.volume = 0.1;
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
 	}
 
