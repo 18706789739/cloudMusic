@@ -14,16 +14,48 @@ export default class MusicPlayerControlBar extends Component {
 		this.props.setMusicPrev();
 	}
 	handleClickMode = ()=>{
-		this.props.setMusicMode();
+		const {
+			mode,
+			modeArray,
+		} = this.props;
+		let inNum = this.in_array(mode,modeArray);
+		this.props.setMusicMode(modeArray[inNum]);
 	}
+	in_array = (mode,modeArray)=>{
+		for (let i =0 ,n = modeArray.length ;i < n ;i++){
+			if (modeArray[i] === mode) {
+				return i+1 === n ? 0 : i+1;
+			}
+		}
+	}
+
 	render(){
+		const {
+			mode,
+			musicstatus
+		} = this.props;
+		let playStatu = musicstatus ? 'icon-pause' : 'icon-bigbofang' ;
+		let modeStatu ;
+		switch(mode){
+			case 'LOOP':
+			modeStatu = 'icon-shunxuxunhuan';
+			break;
+
+			case 'RANDOM':
+			modeStatu = 'icon-suijibofang01';
+			break;
+
+			default :
+			return 0;
+		}
+
 		return (
 			<div className="music-player-control-bar">
-				<div className="music-player-btnmode"><Icon fontname="icon-suijibofang01" /></div>
+				<div className="music-player-btnmode" onClick={this.handleClickMode}><Icon fontname={modeStatu} /></div>
 				<div className="music-player-btnprev" onClick={this.handleClickPrev}><Icon fontname="icon-shangyishou" /></div>
-				<div className="music-player-btnplay" onClick={this.handleClickPlay}><Icon fontname="icon-bigbofang" /></div>
+				<div className="music-player-btnplay" onClick={this.handleClickPlay}><Icon fontname={playStatu} /></div>
 				<div className="music-player-btnnext" onClick={this.handleClickNext}><Icon fontname="icon-xiayishou" /></div>
-				<div className="music-player-btnlist"><Icon fontname="icon-list" /></div>
+				<div className="music-player-btnlist"><Icon fontname='icon-list' /></div>
 			</div>
 		)
 	}

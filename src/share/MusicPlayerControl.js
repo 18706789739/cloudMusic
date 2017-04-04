@@ -5,12 +5,12 @@ import {fetchMusicList,fetchMusic,setMusicStatus} from '../share/MusicPlayerCont
 
 @connect(state => {
   return {
-    music: state.home.music.music,
-    musiclist: state.home.music.musiclist,
-    mode: state.home.music.mode,
-    musicplay: state.home.music.musicplay,
-    musicprev: state.home.music.musicprev,
-    musicnext: state.home.music.musicnext,
+    music: 		state.home.music.music,
+    musiclist: 	state.home.music.musiclist,
+    mode: 		state.home.music.mode,
+    musicplay: 	state.home.music.musicplay,
+    musicprev: 	state.home.music.musicprev,
+    musicnext: 	state.home.music.musicnext,
     musicstatus:state.home.music.musicstatus,
   };
 }, {
@@ -97,6 +97,8 @@ export default class MusicPlayerControl extends Component{
 		if(this.state.onindex != state.onindex){return false};
 		/*更新播放器播放状态时不渲染*/
 		if(this.props.musicstatus != props.musicstatus){return false};
+		/*更新播放器播放模式时不渲染*/
+		if(this.props.mode != props.mode){return false};
 		/*控制播放暂停时不渲染*/
 		if(this.props.musicplay != props.musicplay){
 			if(this.props.musicstatus){
@@ -114,7 +116,7 @@ export default class MusicPlayerControl extends Component{
 
 	componentDidMount(){
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
-		this.refs.myAudio.volume = 0.1;
+		this.refs.myAudio.volume = 0.3;
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
 	}
 

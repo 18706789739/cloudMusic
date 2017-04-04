@@ -8,9 +8,11 @@ require('./ViewWord.css');
 
 @connect(state => {
   return {
-    music: state.home.music.music,
-    musiclist: state.home.music.musiclist,
-    mode: state.home.music.mode,
+    music:  	state.home.music.music,
+    musiclist:  state.home.music.musiclist,
+    mode:  		state.home.music.mode,
+    modeArray: 	state.home.music.modeArray,
+    musicstatus:state.home.music.musicstatus,
   };
 }, {
   push,

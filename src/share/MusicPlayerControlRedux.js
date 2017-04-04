@@ -4,6 +4,7 @@ const initialState = {
 		privileges:[]
 	},
 	mode: 'LOOP',
+	modeArray:['LOOP','RANDOM'],
 	musicplay:0,
 	musicnext:0,
 	musicprev:0,
@@ -127,7 +128,7 @@ export const fetchMusic = (id) => dispatch => {
 /*537532773*/
 /*获取歌单*/
 export const fetchMusicList = () => dispatch => {
-	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=471199291')
+	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=418431527')
 		.then(response => response.json())
 		.then(json => {
 			/*获取到歌单放进state*/
