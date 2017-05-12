@@ -23,7 +23,7 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM'
   },
-  devtool:'source-map',
+  devtool:false,
   //添加我们的插件 会自动生成一个html文件
     plugins: [
     new HtmlwebpackPlugin({
@@ -31,6 +31,20 @@ module.exports = {
       title: 'Hello World app',
       template: './'+Routou+'/template/my-index.html'
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      output: {
+        comments: false,  // remove all comments
+      },
+      compress: {
+        warnings: false
+      }
+    })
   
     //这个使用uglifyJs压缩你的js代码
     //new webpack.optimize.UglifyJsPlugin({minimize: true}),
@@ -55,15 +69,6 @@ module.exports = {
         loader: 'url?limit=40000'
       }
     ]
-  },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,  
-    /*host: '192.168.1.109',
-    port:8080*/
-
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

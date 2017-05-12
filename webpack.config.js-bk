@@ -19,11 +19,7 @@ module.exports = {
     path: BUILD_PATH,
     filename: 'bundle.js'
   },
-  externals:{
-    'react': 'React',
-    'react-dom': 'ReactDOM'
-  },
-  devtool:'source-map',
+  devtool: 'source-map',
   //添加我们的插件 会自动生成一个html文件
     plugins: [
     new HtmlwebpackPlugin({
@@ -42,7 +38,8 @@ module.exports = {
       {test: /\.css$/, loader: "style!css"},
       {
         test: /\.less$/,
-        loaders: ['style', 'css','less']
+        loaders: ['style', 'css','less'],
+        include: APP_PATH
       },{
         test: /\.jsx?$/,
         loader: 'babel',
@@ -60,10 +57,11 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     inline: true,
-    progress: true,  
+    progress: true,
+    /*host: '192.168.0.152',
+    port:8080*/
     /*host: '192.168.1.109',
     port:8080*/
-
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

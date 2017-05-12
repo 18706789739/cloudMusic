@@ -1,4 +1,4 @@
-body,html{height: 100%;}
+body,html{height: 100%;overflow: hidden;}
 #root,div[data-reactroot]{height: 100%;}
 audio{
 	position: absolute;

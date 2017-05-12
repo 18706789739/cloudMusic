@@ -14,11 +14,18 @@ const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 history.listen(location => console.log(location.pathname))
 
+var devtool ;
+if (process.env.NODE_ENV === 'production') {
+  devtool = (<div></div>);
+} else {
+  devtool = <DevTools />;
+}
+
 ReactDOM.render(
     <Provider store={store}>
 	    <div>
 	      {routes(history)}
-	      <DevTools />
+	      {devtool}
 	    </div>
 	</Provider>,
 	document.getElementById('root')

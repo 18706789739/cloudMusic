@@ -1,1 +1,18 @@
-.music-viewword{height: 100%;}
+.music-viewword{
+	height: 100%;
+	position: relative;
+}
+.music-list-window{
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	transform:translateY(0);
+	transition:all 0.3s;
+	-webkit-transition:all 0.3s;
+	height: 35rem;
+	overflow: auto;
+	z-index: 99;
+}
+.music-list-window-open{
+	transform:translateY(-35rem);
+}

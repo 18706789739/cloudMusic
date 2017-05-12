@@ -21,6 +21,9 @@ export default class MusicPlayerControlBar extends Component {
 		let inNum = this.in_array(mode,modeArray);
 		this.props.setMusicMode(modeArray[inNum]);
 	}
+	showMusicList = ()=>{
+		this.props.showMusicList();
+	}
 	in_array = (mode,modeArray)=>{
 		for (let i =0 ,n = modeArray.length ;i < n ;i++){
 			if (modeArray[i] === mode) {
@@ -55,7 +58,7 @@ export default class MusicPlayerControlBar extends Component {
 				<div className="music-player-btnprev" onClick={this.handleClickPrev}><Icon fontname="icon-shangyishou" /></div>
 				<div className="music-player-btnplay" onClick={this.handleClickPlay}><Icon fontname={playStatu} /></div>
 				<div className="music-player-btnnext" onClick={this.handleClickNext}><Icon fontname="icon-xiayishou" /></div>
-				<div className="music-player-btnlist"><Icon fontname='icon-list' /></div>
+				<div className="music-player-btnlist" onClick={this.showMusicList}><Icon fontname='icon-list' /></div>
 			</div>
 		)
 	}
