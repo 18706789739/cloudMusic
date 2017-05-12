@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import MusicPlayer from '../components/MusicPlayer/MusicPlayer.js'
-import {fetchMusic,setMusicPlay,setMusicMode,setMusicNext,setMusicPrev,setMusicOnIndex} from '../share/MusicPlayerControlRedux.js';
+import {fetchMusic,setMusicPlay,setMusicMode,setMusicNext,setMusicPrev,setMusicOnIndex,setMusicLyric,fetchMusicLyric} from '../share/MusicPlayerControlRedux.js';
 import MusicList from '../share/MusicList/MusicList.js';
 
 require('./ViewWord.css');
@@ -15,24 +15,56 @@ require('./ViewWord.css');
     mode:  		state.home.music.mode,
     modeArray: 	state.home.music.modeArray,
     musicstatus:state.home.music.musicstatus,
+    musiclyric:state.home.music.musiclyric
   };
-}, {
+},{
   push,
   fetchMusic,
   setMusicPlay,
   setMusicMode,
   setMusicNext,
   setMusicPrev,
-  setMusicOnIndex
+  setMusicOnIndex,
+  fetchMusicLyric
 })
 export default class ViewWord extends Component{
 
-componentDidMount(){
+  shouldComponentUpdate(props,state){
+    if(this.props.music != props.music){
+      return true;
+    }
+    /*更新歌曲列表不渲染*/
+    if(this.props.musiclist.privileges.length != props.musiclist.privileges.length){return false;}
+    // /*setState更新onindex时不渲染*/
+     if(this.props.onindex != props.onindex){return false};
+    /*更新播放器播放状态时不渲染*/
+    if(this.props.musicstatus != props.musicstatus){return false};
+    /*更新播放器播放模式时不渲染*/
+    if(this.props.mode != props.mode){return false};
+    /*控制播放暂停时不渲染*/
+    if(this.props.musicplay != props.musicplay){
+      if(this.props.musicstatus){
+        this.refs.myAudio.pause()
+        this.props.setMusicStatus(false)
+      }else{
+        this.refs.myAudio.play()
+        this.props.setMusicStatus(true)
+      }
+      return false;
+    }
+    console.log(999999999999999900909)
+
+    return true;
+  }
+
+  componentDidMount(){
     this.refs.VIEW_viewword.addEventListener('click',this.listenWindow)
 	}
   componentWillUnmount(){
     this.refs.musicListWindow.removeEventListener('click',this.listenWindow)
   }
+
+ 
 
   listenWindow = (e)=>{
       var musicListWindow = this.refs.musicListWindow;
@@ -62,7 +94,7 @@ componentDidMount(){
   }
 
 	render(){
-  
+  console.log(66666666+'viewword render')
     const songList = this.props.musiclist.playlist.tracks;
 
 		return (

@@ -15,7 +15,7 @@ export default class MusicPlayer extends Component {
 			<div className="music-player">
 				<div className="music-player-cover">
 					<MusicPlayerTop {...settop} />
-					<MusicPlayerWord />
+					<MusicPlayerWord {...this.props} />
 					<MusicPlayerControlBar {...this.props}/>
 				</div>
 			</div>

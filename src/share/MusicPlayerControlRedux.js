@@ -12,7 +12,8 @@ const initialState = {
 	musicplay:0,
 	musicnext:0,
 	musicprev:0,
-	musicstatus:true
+	musicstatus:true,
+	musiclyric:'',
 }
 
 const SET_MUSIC_ONINDEX = 'SET_MUSIC_ONINDEX';
@@ -23,6 +24,7 @@ const SET_MUSIC_NEXT = 'SET_MUSIC_NEXT';
 const SET_MUSIC_PREV = 'SET_MUSIC_PREV';
 const SET_MUSIC_PLAY = 'SET_MUSIC_PLAY';
 const SET_MUSIC_STATUS = 'SET_MUSIC_STATUS';
+const SET_MUSIC_LYRIC = 'SET_MUSIC_LYRIC';
 
 export function setMusicOnIndex(index) {
 	return {
@@ -80,6 +82,14 @@ export function setMusicStatus(bool) {
 	}
 }
 
+export function setMusicLyric(json) {
+	return {
+		type: SET_MUSIC_LYRIC,
+		payload:json
+	}
+}
+
+
 export default function musiclist(state = initialState, action) {
 	switch (action.type) {
 		case SET_MUSIC_ONINDEX:{
@@ -130,6 +140,12 @@ export default function musiclist(state = initialState, action) {
 				musicstatus:action.payload
 			}
 		}
+		case SET_MUSIC_LYRIC:{
+			return{
+				...state,
+				musiclyric:action.payload
+			}
+		}
 		default:
 			return state;
 	}
@@ -144,7 +160,6 @@ export const fetchMusic = (id) => dispatch => {
 		dispatch(setMusic(json.data[0]))
 	})
 }
-/*537532773*/
 /*获取歌单*/
 export const fetchMusicList = () => dispatch => {
 	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=391820753')
@@ -155,5 +170,13 @@ export const fetchMusicList = () => dispatch => {
 			/*根据第一首ID查询歌曲*/
 			let id = json.privileges[0].id;
 			dispatch(fetchMusic(id))
+		})
+}
+/*根据id获取歌词*/
+export const fetchMusicLyric = (id) => dispatch => {
+	return fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id='+id)
+		.then(response => response.json())
+		.then(json => {
+			dispatch(setMusicLyric(json.lrc.lyric));
 		})
 }

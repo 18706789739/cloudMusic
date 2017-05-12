@@ -28,7 +28,6 @@ export default class MusicListRow extends Component {
 		} = this.props;
 
 		const getRow = (active)=>{
-			console.log(active)
 			switch(active){
 
 				case true:

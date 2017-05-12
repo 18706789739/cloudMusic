@@ -96,7 +96,7 @@ export default class MusicPlayerControl extends Component{
 		/*更新歌曲列表不渲染*/
 		if(this.props.musiclist.privileges.length != props.musiclist.privileges.length){return false;}
 		// /*setState更新onindex时不渲染*/
-		// if(this.props.onindex != props.onindex){return false};
+		if(this.props.onindex != props.onindex){return false};
 		/*更新播放器播放状态时不渲染*/
 		if(this.props.musicstatus != props.musicstatus){return false};
 		/*更新播放器播放模式时不渲染*/
