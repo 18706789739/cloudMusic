@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import MusicPlayer from '../components/MusicPlayer/MusicPlayer.js'
-import {fetchMusic,setMusicPlay,setMusicMode,setMusicNext,setMusicPrev} from '../share/MusicPlayerControlRedux.js';
+import {fetchMusic,setMusicPlay,setMusicMode,setMusicNext,setMusicPrev,setMusicOnIndex} from '../share/MusicPlayerControlRedux.js';
 import MusicList from '../share/MusicList/MusicList.js';
 
 require('./ViewWord.css');
 
 @connect(state => {
   return {
+    onindex:    state.home.music.onindex,
     music:  	state.home.music.music,
     musiclist:  state.home.music.musiclist,
     mode:  		state.home.music.mode,
@@ -22,10 +23,11 @@ require('./ViewWord.css');
   setMusicMode,
   setMusicNext,
   setMusicPrev,
+  setMusicOnIndex
 })
 export default class ViewWord extends Component{
 
-	componentDidMount(){
+componentDidMount(){
     this.refs.VIEW_viewword.addEventListener('click',this.listenWindow)
 	}
   componentWillUnmount(){
@@ -49,10 +51,13 @@ export default class ViewWord extends Component{
 
   onMusicListRowClick = (e)=>{
     const {
-      fetchMusic
+      fetchMusic,
+      setMusicOnIndex
     } = this.props;
     const musicRow = e.currentTarget;
     const id = musicRow.dataset.id;
+    const index = musicRow.dataset.index;
+    setMusicOnIndex(index)
     fetchMusic(id)
   }
 
@@ -64,9 +69,7 @@ export default class ViewWord extends Component{
 			<div ref="VIEW_viewword" className="music-viewword">
 				<MusicPlayer {...this.props} showMusicList={this.showMusicList}  />
         <div ref='musicListWindow' className="music-list-window music-list-window-open">
-          <MusicList songList = {songList} 
-                     onMusicListRowClick={this.onMusicListRowClick}
-                     {...this.props}  />
+          <MusicList songList = {songList} onMusicListRowClick={this.onMusicListRowClick} {...this.props}  />
         </div>
 			</div>
 		)

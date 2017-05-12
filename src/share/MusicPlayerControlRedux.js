@@ -6,6 +6,7 @@ const initialState = {
 			tracks:[]
 		}
 	},
+	onindex:0,
 	mode: 'LOOP',
 	modeArray:['LOOP','RANDOM'],
 	musicplay:0,
@@ -14,6 +15,7 @@ const initialState = {
 	musicstatus:true
 }
 
+const SET_MUSIC_ONINDEX = 'SET_MUSIC_ONINDEX';
 const SET_MUSIC = 'SET_MUSIC';
 const SET_MUSIC_LIST = 'SET_MUSIC_LIST';
 const SET_MUSIC_MODE = 'SET_MUSIC_MODE';
@@ -21,6 +23,13 @@ const SET_MUSIC_NEXT = 'SET_MUSIC_NEXT';
 const SET_MUSIC_PREV = 'SET_MUSIC_PREV';
 const SET_MUSIC_PLAY = 'SET_MUSIC_PLAY';
 const SET_MUSIC_STATUS = 'SET_MUSIC_STATUS';
+
+export function setMusicOnIndex(index) {
+	return {
+		type: SET_MUSIC_ONINDEX,
+		payload: index
+	}
+}
 
 export function setMusic(msuic) {
 	return {
@@ -73,6 +82,12 @@ export function setMusicStatus(bool) {
 
 export default function musiclist(state = initialState, action) {
 	switch (action.type) {
+		case SET_MUSIC_ONINDEX:{
+			return {
+				...state,
+				onindex: action.payload
+			}
+		}
 		case SET_MUSIC:{
 			return {
 				...state,

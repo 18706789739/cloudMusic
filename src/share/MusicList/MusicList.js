@@ -1,6 +1,6 @@
 import React, {Component} from 'react' 
 import MusicListRow from './MusicListRow.js'
-require('./MusicList.css')
+require('./MusicList.less')
 
 export default class MusicList extends Component {
   
@@ -34,12 +34,15 @@ export default class MusicList extends Component {
   render(){ 
 
     const songList = this.props.songList;
+    const onindex = this.props.onindex;
 
    	return (
       <div className="music-list">
         {songList.map(function(item,index){
+          let active = onindex == index ? true : false;
             return (
               <MusicListRow key={item.id}
+                            active={active}
                             id={item.id} 
                             index={index}
                             songname={item.name}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import {fetchMusicList,fetchMusic,setMusicStatus} from '../share/MusicPlayerControlRedux.js'
+import {fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from '../share/MusicPlayerControlRedux.js'
 
 @connect(state => {
   return {
+  	onindex: 	state.home.music.onindex,
     music: 		state.home.music.music,
     musiclist: 	state.home.music.musiclist,
     mode: 		state.home.music.mode,
@@ -17,12 +18,10 @@ import {fetchMusicList,fetchMusic,setMusicStatus} from '../share/MusicPlayerCont
   push,
   fetchMusicList,
   fetchMusic,
-  setMusicStatus
+  setMusicStatus,
+  setMusicOnIndex
 })
 export default class MusicPlayerControl extends Component{
-	state = {
-		onindex : 0
-	}
 	componentWillMount(){
 		this.props.fetchMusicList();
 	}
@@ -53,18 +52,21 @@ export default class MusicPlayerControl extends Component{
 		const {
 			musiclist,
 			fetchMusic,
+			setMusicOnIndex
 		} = this.props;
-		let {onindex} = this.state;
+		let onindex = parseInt(this.props.onindex);
 		if(statu)onindex == musiclist.privileges.length-1?onindex=0:onindex+=1;
 		else{onindex == 0?onindex=musiclist.privileges.length-1:onindex-=1;}
-		this.setState({onindex})
+		console.log(onindex)
+		setMusicOnIndex(onindex)
 		fetchMusic(musiclist.privileges[onindex].id)
 	}
 
 	musicModeRandom(){
 		const {
 			musiclist,
-			fetchMusic
+			fetchMusic,
+			setMusicOnIndex
 		} = this.props;
 		const min = 0;
 		const max = musiclist.privileges.length-1;
@@ -72,8 +74,8 @@ export default class MusicPlayerControl extends Component{
 		/*歌曲列表只有一首时中断随机*/
 		if(musiclist.privileges.length == 1){return}
 		do{	onindex = Math.floor(Math.random()*(max-min+1)+min);}
-		while(this.state.onindex == onindex)
-		this.setState({onindex})
+		while(this.props.onindex == onindex)
+		setMusicOnIndex(onindex)
 		fetchMusic(musiclist.privileges[onindex].id)
 	}
 
@@ -93,8 +95,8 @@ export default class MusicPlayerControl extends Component{
 		}
 		/*更新歌曲列表不渲染*/
 		if(this.props.musiclist.privileges.length != props.musiclist.privileges.length){return false;}
-		/*setState更新onindex时不渲染*/
-		if(this.state.onindex != state.onindex){return false};
+		// /*setState更新onindex时不渲染*/
+		// if(this.props.onindex != props.onindex){return false};
 		/*更新播放器播放状态时不渲染*/
 		if(this.props.musicstatus != props.musicstatus){return false};
 		/*更新播放器播放模式时不渲染*/

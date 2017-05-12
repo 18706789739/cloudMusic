@@ -23,15 +23,43 @@ export default class MusicListRow extends Component {
 			auther,
 			index,
 			id,
+			active,
 			handleClick
 		} = this.props;
 
+		const getRow = (active)=>{
+			console.log(active)
+			switch(active){
+
+				case true:
+				return (
+					<div className='music-list-row active' data-index={index} data-id={id} onClick={this.rowClick}>
+						<div className="music-list-palyIcon"><Icon fontname='icon-shengyin' /></div>
+						<div className="music-list-songname music-list-textrow">{songname}</div>
+						<div className="music-list-auther music-list-textrow">{auther}</div>
+						<div className="music-list-btn" onClick={this.iconClick}><Icon fontname='icon-icon'/></div>
+					</div>
+				);
+				break;
+
+				case false:
+				return (
+					<div className='music-list-row' data-index={index} data-id={id} onClick={this.rowClick}>
+						<div className="music-list-songname music-list-textrow">{songname}</div>
+						<div className="music-list-auther music-list-textrow">{auther}</div>
+						<div className="music-list-btn" onClick={this.iconClick}><Icon fontname='icon-icon'/></div>
+					</div>
+				);
+				break;
+
+				default:
+				return(<div></div>);
+				break;
+			}
+		}
+
 		return (
-			<div className="music-list-row" data-index={index} data-id={id} onClick={this.rowClick}>
-				<div className="music-list-songname music-list-textrow">{songname}</div>
-				<div className="music-list-auther music-list-textrow">{auther}</div>
-				<div className="music-list-btn" onClick={this.iconClick}><Icon fontname='icon-icon'/></div>
-			</div>
+			getRow(active)
 		)
 	}
 }
