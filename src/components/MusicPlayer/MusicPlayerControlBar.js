@@ -8,10 +8,16 @@ export default class MusicPlayerControlBar extends Component {
 		this.props.setMusicPlay();
 	}
 	handleClickNext = ()=>{
-		this.props.setMusicNext();
+		this.props.setMusicInfo({
+			music:{url:''},
+			musicnext: new Date().valueOf()
+		})
 	}
 	handleClickPrev = ()=>{
-		this.props.setMusicPrev();
+		this.props.setMusicInfo({
+			music:{url:''},
+			musicprev: new Date().valueOf()
+		})
 	}
 	handleClickMode = ()=>{
 		const {

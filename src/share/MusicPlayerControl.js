@@ -57,7 +57,6 @@ export default class MusicPlayerControl extends Component{
 		let onindex = parseInt(this.props.onindex);
 		if(statu)onindex == musiclist.privileges.length-1?onindex=0:onindex+=1;
 		else{onindex == 0?onindex=musiclist.privileges.length-1:onindex-=1;}
-		console.log(onindex)
 		setMusicOnIndex(onindex)
 		fetchMusic(musiclist.privileges[onindex].id)
 	}
@@ -78,18 +77,18 @@ export default class MusicPlayerControl extends Component{
 		setMusicOnIndex(onindex)
 		fetchMusic(musiclist.privileges[onindex].id)
 	}
-
-	shouldComponentUpdate(props,state){
+	componentWillReceiveProps(props){
 		/*播放上一首歌曲*/
 		if(this.props.musicprev != props.musicprev){
 			this.playNextMusic(0)
-			return false
 		};
 		/*播放下一首歌曲*/
 		if(this.props.musicnext != props.musicnext){
 			this.playNextMusic()
-			return false
 		};
+	}
+
+	shouldComponentUpdate(props,state){
 		if(this.props.music != props.music){
 			return true;
 		}
@@ -118,7 +117,7 @@ export default class MusicPlayerControl extends Component{
 
 	componentDidMount(){
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
-		this.refs.myAudio.volume = 0.3;
+		this.refs.myAudio.volume = 0.5;
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
 	}
 

@@ -16,7 +16,7 @@ history.listen(location => console.log(location.pathname))
 
 var devtool ;
 if (process.env.NODE_ENV === 'production') {
-  devtool = (<div></div>);
+  devtool = null;
 } else {
   devtool = <DevTools />;
 }

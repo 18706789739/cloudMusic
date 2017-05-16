@@ -7,7 +7,8 @@ import ViewWord from '../views/ViewWord.js'
 const routes = history =>(
 	<Router history={history}>
 		<Route path="/" component={Frame} >
-			<IndexRoute component={ViewWord} />
+			<IndexRoute component={Home} />
+			<Route path="/viewword" component={ViewWord} />
 		</Route>
 	</Router>
 )

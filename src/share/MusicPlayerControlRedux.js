@@ -3,7 +3,12 @@ const initialState = {
 	musiclist:{
 		privileges:[],
 		playlist:{
-			tracks:[]
+			tracks:[
+				{
+					ar:[{name:''}],
+					al:{picUrl:''}
+				}
+			]
 		}
 	},
 	onindex:0,
@@ -13,18 +18,19 @@ const initialState = {
 	musicnext:0,
 	musicprev:0,
 	musicstatus:true,
-	musiclyric:'',
+
 }
 
 const SET_MUSIC_ONINDEX = 'SET_MUSIC_ONINDEX';
 const SET_MUSIC = 'SET_MUSIC';
+const SET_MUSIC_INFO = 'SET_MUSIC_INFO';
 const SET_MUSIC_LIST = 'SET_MUSIC_LIST';
 const SET_MUSIC_MODE = 'SET_MUSIC_MODE';
 const SET_MUSIC_NEXT = 'SET_MUSIC_NEXT';
 const SET_MUSIC_PREV = 'SET_MUSIC_PREV';
 const SET_MUSIC_PLAY = 'SET_MUSIC_PLAY';
 const SET_MUSIC_STATUS = 'SET_MUSIC_STATUS';
-const SET_MUSIC_LYRIC = 'SET_MUSIC_LYRIC';
+
 
 export function setMusicOnIndex(index) {
 	return {
@@ -37,6 +43,13 @@ export function setMusic(msuic) {
 	return {
 		type: SET_MUSIC,
 		payload: msuic
+	}
+}
+
+export function setMusicInfo(info) {
+	return {
+		type: SET_MUSIC_INFO,
+		payload: info
 	}
 }
 
@@ -82,13 +95,6 @@ export function setMusicStatus(bool) {
 	}
 }
 
-export function setMusicLyric(json) {
-	return {
-		type: SET_MUSIC_LYRIC,
-		payload:json
-	}
-}
-
 
 export default function musiclist(state = initialState, action) {
 	switch (action.type) {
@@ -102,6 +108,12 @@ export default function musiclist(state = initialState, action) {
 			return {
 				...state,
 				music: action.payload
+			}
+		}
+		case SET_MUSIC_INFO:{
+			return {
+				...state,
+				...action.payload
 			}
 		}
 		case SET_MUSIC_LIST:{
@@ -140,12 +152,6 @@ export default function musiclist(state = initialState, action) {
 				musicstatus:action.payload
 			}
 		}
-		case SET_MUSIC_LYRIC:{
-			return{
-				...state,
-				musiclyric:action.payload
-			}
-		}
 		default:
 			return state;
 	}
@@ -170,13 +176,5 @@ export const fetchMusicList = () => dispatch => {
 			/*根据第一首ID查询歌曲*/
 			let id = json.privileges[0].id;
 			dispatch(fetchMusic(id))
-		})
-}
-/*根据id获取歌词*/
-export const fetchMusicLyric = (id) => dispatch => {
-	return fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id='+id)
-		.then(response => response.json())
-		.then(json => {
-			dispatch(setMusicLyric(json.lrc.lyric));
 		})
 }

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 require('./MusicPlayerWord.css')
 
 export default class MusicPlayerWord extends Component {
-
+	state = {
+		musiclyric:'网易云音乐'
+	}
 	/*将歌词重整为数组*/
 	parseLyric(text){
 		//将文本分隔成一行一行，存入数组
@@ -21,11 +23,11 @@ export default class MusicPlayerWord extends Component {
 		lines[lines.length - 1].length === 0 && lines.pop();
 		lines.forEach(function(v /*数组元素值*/ , i /*元素索引*/ , a /*数组本身*/ ) {
 			//提取出时间[xx:xx.xx]
-			console.log(v)
+			//console.log(v)
 			var time = v.match(pattern),
 				//提取歌词
 				value = v.replace(pattern, '');
-				console.log(time)
+				//console.log(time)
 				
 			//因为一行里面可能有多个时间，所以time有可能是[xx:xx.xx][xx:xx.xx][xx:xx.xx]的形式，需要进一步分隔
 			time.forEach(function(v1, i1, a1) {
@@ -46,8 +48,8 @@ export default class MusicPlayerWord extends Component {
 	renderWord = ()=>{
 		var {
 			musiclyric
-		} = this.props;
-		if(musiclyric.length != 0){
+		} = this.state;
+		if(musiclyric.length > 10){
 			musiclyric = this.parseLyric(musiclyric);
 			return musiclyric.map((o,index)=>{
 				return (
@@ -55,32 +57,42 @@ export default class MusicPlayerWord extends Component {
 				);
 			})
 		}else{
-			return <div>网易云音乐</div>;
+			return <div className="music-word-row">{musiclyric}</div>;
 		}
 	}
 
-	componentWillMount(){
-		this.fetMusicLyric();
+	componentDidMount(){
+		this.fetMusicLyric(this.props.onindex);
 	}
 
 	componentWillUpdate(){
 		//this.fetMusicLyric();
 	}
 
-	shouldComponentUpdate(props,state){
-		if(this.props.onindex != props.onindex){
-			this.fetMusicLyric(props.onindex)
+	componentWillReceiveProps(nextProps){
+		if(this.props.onindex != nextProps.onindex){
+			this.setState({
+				musiclyric:'加载歌词中···'
+			})
+			this.fetMusicLyric(nextProps.onindex)
 			return false;
 		};
-		return true;
 	}
 
-	fetMusicLyric(onindex){
+	fetMusicLyric = (onindex) => {
+		var self = this;
 		const {
 			musiclist,
-			fetchMusicLyric
 		} = this.props;
-		musiclist.privileges.length != 0 && fetchMusicLyric(musiclist.privileges[onindex].id)
+		if(musiclist.privileges.length != 0){
+			fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id='+musiclist.privileges[onindex].id)
+			.then(response => response.json())
+			.then(json => {
+				self.setState({
+					musiclyric:json.lrc.lyric
+				})
+			})
+		}
 	}
 
 	render(){

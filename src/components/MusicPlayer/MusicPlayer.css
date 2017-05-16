@@ -1,8 +1,23 @@
 .music-player{
 	height: 100%;
+	position: relative;
+	transform:translate3d(0,0,0);
+	-webkit-transform:translate3d(0,0,0);
+}
+.music-player-blurbg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	filter: blur(50px);
+	-webkit-filter: blur(50px);
+	background-size: cover;
+	background-position: center center;
+	z-index: -1;
 }
 .music-player .music-player-cover{
 	height: 100%;
-	background-color: rgba(0,0,0,.7);
+	background-color: rgba(0,0,0,.65);
 	position: relative;
 }
