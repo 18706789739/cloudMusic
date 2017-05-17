@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import {fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from '../share/MusicPlayerControlRedux.js'
+import {setPlayer,fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from '../share/MusicPlayerControlRedux.js'
 
 @connect(state => {
   return {
@@ -16,6 +16,7 @@ import {fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from '../share
   };
 }, {
   push,
+  setPlayer,
   fetchMusicList,
   fetchMusic,
   setMusicStatus,
@@ -23,7 +24,7 @@ import {fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from '../share
 })
 export default class MusicPlayerControl extends Component{
 	componentWillMount(){
-		this.props.fetchMusicList();
+		this.props.fetchMusicList(310970433);
 	}
 
 	playNextMusic = (statu = 1)=>{
@@ -116,6 +117,7 @@ export default class MusicPlayerControl extends Component{
 	}
 
 	componentDidMount(){
+		this.props.setPlayer(this.refs.myAudio);
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
 		this.refs.myAudio.volume = 0.5;
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
@@ -130,6 +132,6 @@ export default class MusicPlayerControl extends Component{
 		const {
 			music,
 		} = this.props;
-		return <audio ref="myAudio" controls autoPlay src={music.url}></audio>
+		return <audio id="myAudio" ref="myAudio" controls autoPlay src={music.url}></audio>
 	}
 }

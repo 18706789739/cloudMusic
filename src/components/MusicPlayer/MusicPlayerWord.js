@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+var classNames = require('classnames');
 require('./MusicPlayerWord.css')
 
 export default class MusicPlayerWord extends Component {
 	state = {
-		musiclyric:'网易云音乐'
+		musiclyric:'网易云音乐',
+		lyricRow:0
 	}
 	/*将歌词重整为数组*/
 	parseLyric(text){
@@ -14,16 +16,15 @@ export default class MusicPlayerWord extends Component {
 			//保存最终结果的数组
 			result = [];
 		//去掉不含时间的行
-		var o = 0;
-		while (pattern.test(lines[0])) {
+		//var o = 0;
+		while (!pattern.test(lines[0])) {
 			lines = lines.slice(1);
-			if(++o == 100)return ;
+			//if(++o ==1000){break;}
 		};
 		//上面用'\n'生成生成数组时，结果中最后一个为空元素，这里将去掉
 		lines[lines.length - 1].length === 0 && lines.pop();
 		lines.forEach(function(v /*数组元素值*/ , i /*元素索引*/ , a /*数组本身*/ ) {
 			//提取出时间[xx:xx.xx]
-			//console.log(v)
 			var time = v.match(pattern),
 				//提取歌词
 				value = v.replace(pattern, '');
@@ -47,13 +48,14 @@ export default class MusicPlayerWord extends Component {
 	/*渲染歌词*/
 	renderWord = ()=>{
 		var {
-			musiclyric
+			musiclyric,
+			lyricRow
 		} = this.state;
-		if(musiclyric.length > 10){
-			musiclyric = this.parseLyric(musiclyric);
+		if(musiclyric instanceof Array){
 			return musiclyric.map((o,index)=>{
+				let active = lyricRow == index ? true : false;
 				return (
-					<div key={index} className="music-word-row">{o[1]}</div>
+					<div key={index} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
 				);
 			})
 		}else{
@@ -65,6 +67,38 @@ export default class MusicPlayerWord extends Component {
 		this.fetMusicLyric(this.props.onindex);
 	}
 
+	lyricScroll = ()=>{
+		const Player = this.props.Player;
+		const {
+			lyricRow,
+			musiclyric
+		} = this.state;
+		// 歌词行高
+		const rowLineHeight = 30;
+		var _I_ = 0;
+		
+		while (true){
+			if(_I_ > musiclyric.length-1){
+				break;
+			}
+			if(Player.currentTime<musiclyric[_I_][0]){
+				break;
+			}
+			if(Player.currentTime>musiclyric[_I_][0] && Player.currentTime<musiclyric[_I_+1][0]){
+				break;
+			}else{
+				++_I_;
+			}
+		}
+		console.log(_I_)
+
+		if(_I_ != lyricRow){
+			this.refs.myWord.style.transform='translateY(-' + rowLineHeight*_I_ +'px)';
+			this.setState({lyricRow: _I_})
+		}
+		
+	}
+
 	componentWillUpdate(){
 		//this.fetMusicLyric();
 	}
@@ -74,8 +108,9 @@ export default class MusicPlayerWord extends Component {
 			this.setState({
 				musiclyric:'加载歌词中···'
 			})
+			this.props.Player.removeEventListener('timeupdate',this.lyricScroll)
+			this.refs.myWord.style.transform='translateY(-' + 0 +'px)';
 			this.fetMusicLyric(nextProps.onindex)
-			return false;
 		};
 	}
 
@@ -89,8 +124,9 @@ export default class MusicPlayerWord extends Component {
 			.then(response => response.json())
 			.then(json => {
 				self.setState({
-					musiclyric:json.lrc.lyric
-				})
+					musiclyric:self.parseLyric(json.lrc.lyric),
+					lyricRow:0
+				},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
 			})
 		}
 	}
@@ -99,7 +135,10 @@ export default class MusicPlayerWord extends Component {
 		const word = this.renderWord()
 		return (
 			<div className="music-player-word">
-				{word}
+				<div className="music-player-halfword"></div>
+				<div className="music-player-wordbox">
+					<div ref='myWord' className="music-player-scrollbox">{word}</div>
+				</div>
 			</div>
 		)
 	}

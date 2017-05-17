@@ -9,6 +9,7 @@ require('./ViewWord.css');
 
 @connect(state => {
   return {
+    Player:state.home.music.Player,
     onindex:    state.home.music.onindex,
     music:  	state.home.music.music,
     musiclist:  state.home.music.musiclist,
@@ -29,9 +30,7 @@ require('./ViewWord.css');
 export default class ViewWord extends Component{
 
   shouldComponentUpdate(props,state){
-    if(this.props.music != props.music){
-      return false;
-    }
+    
     return true;
   }
 

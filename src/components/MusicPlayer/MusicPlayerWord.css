@@ -3,9 +3,22 @@
 	top: 50px;
 	bottom: 65px;
 	width: 100%;
-	overflow-y:auto;
+	overflow: hidden;
 	color: #999;
 	text-align: center;
+}
+.music-player-halfword{
+	height: 50%;
+}
+.music-player-scrollbox{
+	transition:all 0.5s;
+	-webkit-transition:all 0.5s;
+}
+.music-player-wordbox{
+	height: 50%;
+}
+.music-word-row-active{
+	color: #FFF;
 }
 .music-player-word .music-word-row{
 	font-size: 14px;

@@ -40,7 +40,8 @@ export default class MusicPlayer extends Component {
 	render(){
 		const {
 			onindex,
-			musiclist
+			musiclist,
+			Player
 		} = this.props;
 		const topProps = {
 			songname:musiclist.playlist.tracks[onindex].name,
@@ -48,7 +49,8 @@ export default class MusicPlayer extends Component {
 		}
 		const wordProps = {
 			onindex : onindex,
-			musiclist : musiclist
+			musiclist : musiclist,
+			Player:Player
 		}
 		return (
 			<div className="music-player">

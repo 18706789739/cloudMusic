@@ -18,11 +18,14 @@ const initialState = {
 	musicnext:0,
 	musicprev:0,
 	musicstatus:true,
+	Player:null
 
 }
 
+
 const SET_MUSIC_ONINDEX = 'SET_MUSIC_ONINDEX';
 const SET_MUSIC = 'SET_MUSIC';
+const SET_PLAYER = 'SET_PLAYER';
 const SET_MUSIC_INFO = 'SET_MUSIC_INFO';
 const SET_MUSIC_LIST = 'SET_MUSIC_LIST';
 const SET_MUSIC_MODE = 'SET_MUSIC_MODE';
@@ -42,6 +45,13 @@ export function setMusicOnIndex(index) {
 export function setMusic(msuic) {
 	return {
 		type: SET_MUSIC,
+		payload: msuic
+	}
+}
+
+export function setPlayer(msuic) {
+	return {
+		type: SET_PLAYER,
 		payload: msuic
 	}
 }
@@ -110,6 +120,12 @@ export default function musiclist(state = initialState, action) {
 				music: action.payload
 			}
 		}
+		case SET_PLAYER:{
+			return {
+				...state,
+				Player: action.payload
+			}
+		}
 		case SET_MUSIC_INFO:{
 			return {
 				...state,
@@ -167,8 +183,8 @@ export const fetchMusic = (id) => dispatch => {
 	})
 }
 /*获取歌单*/
-export const fetchMusicList = () => dispatch => {
-	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=391820753')
+export const fetchMusicList = (id) => dispatch => {
+	return fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id='+id)
 		.then(response => response.json())
 		.then(json => {
 			/*获取到歌单放进state*/
