@@ -68,6 +68,7 @@ export default class MusicPlayerWord extends Component {
 	}
 
 	lyricScroll = ()=>{
+		var self = this;
 		const Player = this.props.Player;
 		const {
 			lyricRow,
@@ -84,17 +85,17 @@ export default class MusicPlayerWord extends Component {
 			if(Player.currentTime<musiclyric[_I_][0]){
 				break;
 			}
-			if(Player.currentTime>musiclyric[_I_][0] && Player.currentTime<musiclyric[_I_+1][0]){
+			if(Player.currentTime>musiclyric[_I_][0] && musiclyric[_I_+1] ? Player.currentTime<musiclyric[_I_+1][0] : true){
 				break;
 			}else{
 				++_I_;
 			}
 		}
-		console.log(_I_)
 
-		if(_I_ != lyricRow){
-			this.refs.myWord.style.transform='translateY(-' + rowLineHeight*_I_ +'px)';
-			this.setState({lyricRow: _I_})
+		if(_I_ != lyricRow){	
+			this.setState({lyricRow: _I_},()=>{
+				self.refs.myWord.setAttribute('style','transform:translateY(-'+ rowLineHeight*_I_ +'px);-webkit-transform:translateY(-'+ rowLineHeight*_I_ +'px)')
+			})
 		}
 		
 	}
@@ -109,7 +110,7 @@ export default class MusicPlayerWord extends Component {
 				musiclyric:'加载歌词中···'
 			})
 			this.props.Player.removeEventListener('timeupdate',this.lyricScroll)
-			this.refs.myWord.style.transform='translateY(-' + 0 +'px)';
+			this.refs.myWord.setAttribute('style','transform:translateY(0px);transition:all 0s;-webkit-transition:all 0s');
 			this.fetMusicLyric(nextProps.onindex)
 		};
 	}

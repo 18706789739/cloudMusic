@@ -17,7 +17,7 @@ const initialState = {
 	musicplay:0,
 	musicnext:0,
 	musicprev:0,
-	musicstatus:true,
+	musicstatus:false,
 	Player:null
 
 }

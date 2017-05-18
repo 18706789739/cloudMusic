@@ -120,6 +120,8 @@ export default class MusicPlayerControl extends Component{
 		this.props.setPlayer(this.refs.myAudio);
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
 		this.refs.myAudio.volume = 0.5;
+		this.refs.myAudio.oncanplay=()=>{this.props.setMusicStatus(!this.refs.myAudio.paused)};
+		
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
 	}
 

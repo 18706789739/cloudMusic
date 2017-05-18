@@ -33,6 +33,9 @@ export default class ViewWord extends Component{
     
     return true;
   }
+  componentWillMount(){
+    this.props.musiclist.privileges.length == 0 && this.props.push('/');
+  }
 
   componentDidMount(){
     this.refs.VIEW_viewword.addEventListener('click',this.listenWindow)
