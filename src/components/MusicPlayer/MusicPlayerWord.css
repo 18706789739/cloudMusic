@@ -11,8 +11,8 @@
 	height: 50%;
 }
 .music-player-scrollbox{
-	transition:all 1s;
-	-webkit-transition:all 1s;
+	transition:all .8s;
+	-webkit-transition:all .8s;
 	transition-timing-function: linear;
 	-webkit-transition-timing-function: linear;
 }

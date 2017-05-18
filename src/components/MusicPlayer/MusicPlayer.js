@@ -7,13 +7,15 @@ require('./MusicPlayer.css')
 
 export default class MusicPlayer extends Component {
 	state = {
-		bgurl:''
+		bgurl:'',
+		image:null
 	}
 	componentWillMount(){
 		this.prevloadImage()
 	}
 	componentWillReceiveProps(newxProps){
 		if(newxProps.onindex != this.props.onindex){
+			this.state.image.src='';
 			this.prevloadImage(newxProps)
 		}
 	}
@@ -25,17 +27,19 @@ export default class MusicPlayer extends Component {
 			musiclist
 		} = newxProps || this.props;
 		var url = musiclist.playlist.tracks[onindex].al.picUrl;
-		console.log(url)
 		this.loadImage(url,function(){
 			self.setState({bgurl:url})
 		})
 	}
-	loadImage(url, callback) { 
-		var img = new Image(); 
-		img.src = url; 
-		img.onload = function(){ //图片下载完毕时异步调用callback函数。 
-			callback.call(img); // 将callback函数this指针切换为img。 
-		}; 
+	loadImage(url, callback){
+		this.setState({
+			image:new Image()
+		},()=>{
+			this.state.image.src = url; 
+			this.state.image.onload = function(){ //图片下载完毕时异步调用callback函数。 
+				callback(); // 将callback函数this指针切换为img。 
+			}; 
+		})
 	} 
 	render(){
 		const {

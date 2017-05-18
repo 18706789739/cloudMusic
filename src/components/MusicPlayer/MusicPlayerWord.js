@@ -55,7 +55,7 @@ export default class MusicPlayerWord extends Component {
 			return musiclyric.map((o,index)=>{
 				let active = lyricRow == index ? true : false;
 				return (
-					<div key={index} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
+					<div key={index} ref={`lyric${index}`} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
 				);
 			})
 		}else{
@@ -94,7 +94,12 @@ export default class MusicPlayerWord extends Component {
 
 		if(_I_ != lyricRow){	
 			this.setState({lyricRow: _I_},()=>{
-				self.refs.myWord.setAttribute('style','transform:translateY(-'+ rowLineHeight*_I_ +'px);-webkit-transform:translateY(-'+ rowLineHeight*_I_ +'px)')
+				let scroll = 0;
+				for(let i = 0; i<_I_; i++){
+					scroll += self.refs['lyric'+i].offsetHeight;
+				}
+				
+				self.refs.myWord.setAttribute('style','transform:translateY(-'+scroll +'px);-webkit-transform:translateY(-'+ scroll +'px)')
 			})
 		}
 		
@@ -138,7 +143,7 @@ export default class MusicPlayerWord extends Component {
 			<div className="music-player-word">
 				<div className="music-player-halfword"></div>
 				<div className="music-player-wordbox">
-					<div ref='myWord' className="music-player-scrollbox">{word}</div>
+					<div ref='myWord' data-scroll={0} className="music-player-scrollbox">{word}</div>
 				</div>
 			</div>
 		)
