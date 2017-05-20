@@ -96,7 +96,6 @@ export default class MusicPlayerWord extends Component {
 			this.setState({lyricRow: _I_},()=>{
 				let scroll = 0;
 				for(let i = 0; i<_I_; i++){
-					// 这里可以优化一下
 					scroll += self.refs['lyric'+i].offsetHeight;
 				}
 				
@@ -130,18 +129,10 @@ export default class MusicPlayerWord extends Component {
 			fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id='+musiclist.privileges[onindex].id)
 			.then(response => response.json())
 			.then(json => {
-				console.log(json)
-				if(json.nolyric === true){
-					self.setState({
-						musiclyric:'纯音乐请欣赏'
-					})
-				}else{
-					self.setState({
-						musiclyric:self.parseLyric(json.lrc.lyric),
-						lyricRow:0
-					},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
-				}
-				
+				self.setState({
+					musiclyric:self.parseLyric(json.lrc.lyric),
+					lyricRow:0
+				},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
 			})
 		}
 	}
