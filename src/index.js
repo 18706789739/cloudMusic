@@ -7,6 +7,12 @@ import { hashHistory } from 'react-router';
 import routes from './routes/index.js';
 import DevTools from './redux/DevTools';
 
+import 'whatwg-fetch'
+import Promise from 'promise-polyfill'; 
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
 import normalize from 'normalize.css'
 require('./index.css')
 

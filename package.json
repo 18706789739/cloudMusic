@@ -37,15 +37,14 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "normalize.css": "^5.0.0",
+    "promise-polyfill": "^6.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.0",
-    "react-tabs": "^0.8.2",
     "redux": "^3.6.0",
-    "redux-composable-fetch": "^0.3.4",
     "redux-thunk": "^1.0.3",
-    "whatwg-fetch": "^0.11.0"
+    "whatwg-fetch": "^2.x"
   }
 }
