@@ -61,8 +61,6 @@ module.exports = {
     hot: true,
     inline: true,
     progress: true,  
-    host: '192.168.1.106',
-    port:8090
 
   },
   resolve: {
