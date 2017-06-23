@@ -12,7 +12,7 @@ export default class MusicPlayerWord extends Component {
 		//将文本分隔成一行一行，存入数组
 		var lines = text.split('\n'),
 			//用于匹配时间的正则表达式，匹配的结果类似[xx:xx.xx]
-			pattern = /\[\d{2}:\d{2}.\d{2,3}\]/g,
+			pattern = /\[\d{2}:\d{2}.\d{1,3}\]/g,
 			//保存最终结果的数组
 			result = [];
 		//去掉不含时间的行
@@ -29,7 +29,6 @@ export default class MusicPlayerWord extends Component {
 				//提取歌词
 				value = v.replace(pattern, '');
 				//console.log(time)
-				
 			//因为一行里面可能有多个时间，所以time有可能是[xx:xx.xx][xx:xx.xx][xx:xx.xx]的形式，需要进一步分隔
 			time.forEach(function(v1, i1, a1) {
 				//去掉时间里的中括号得到xx:xx.xx
@@ -42,6 +41,7 @@ export default class MusicPlayerWord extends Component {
 		result.sort(function(a, b) {
 			return a[0] - b[0];
 		});
+		console.log(result)
 		return result;
 	}
 
@@ -55,7 +55,10 @@ export default class MusicPlayerWord extends Component {
 			return musiclyric.map((o,index)=>{
 				let active = lyricRow == index ? true : false;
 				return (
-					<div key={index} ref={`lyric${index}`} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
+					<div>
+						<div key={index} ref={`lyric${index}`} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
+						{null}					
+					</div>
 				);
 			})
 		}else{
@@ -78,13 +81,17 @@ export default class MusicPlayerWord extends Component {
 		const rowLineHeight = 30;
 		var _I_ = 0;
 		
+		// 不注释自己都忘了这里啥意思
 		while (true){
+			//如果i 大于歌词长度 跳出循环
 			if(_I_ > musiclyric.length-1){
 				break;
 			}
+			//当前播放时间小于 首行歌词播放时间 跳出循环
 			if(Player.currentTime<musiclyric[_I_][0]){
 				break;
 			}
+			// 当前播放时间 小于数组[i] 的播放时间 ？？？？
 			if(Player.currentTime>musiclyric[_I_][0] && musiclyric[_I_+1] ? Player.currentTime<musiclyric[_I_+1][0] : true){
 				break;
 			}else{
@@ -136,8 +143,22 @@ export default class MusicPlayerWord extends Component {
 						musiclyric:'纯音乐请欣赏'
 					})
 				}else{
+
+					let musiclyric = self.parseLyric(json.lrc.lyric);
+					let tlyric = []
+					if(json.tlyric.lyric!=null){
+						tlyric = self.parseLyric(json.tlyric.lyric);
+						for(let i =0,len = musiclyric.length; i<len; i++){
+							if(musiclyric[i][0] == tlyric[0][0]){
+								console.log(i)
+								break;
+							}
+						}
+					}
+
 					self.setState({
-						musiclyric:self.parseLyric(json.lrc.lyric),
+						musiclyric:musiclyric,
+						tlyric:tlyric,
 						lyricRow:0
 					},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
 				}

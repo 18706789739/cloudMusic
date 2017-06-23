@@ -31,7 +31,7 @@ ReactDOM.render(
     <Provider store={store}>
 	    <div>
 	      {routes(history)}
-	      {devtool}
+	      {/*devtool*/}
 	    </div>
 	</Provider>,
 	document.getElementById('root')

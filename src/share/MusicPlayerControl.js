@@ -24,7 +24,7 @@ import {setPlayer,fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from
 })
 export default class MusicPlayerControl extends Component{
 	componentWillMount(){
-		this.props.fetchMusicList(310970433);
+		this.props.fetchMusicList(733787899);
 	}
 
 	playNextMusic = (statu = 1)=>{
@@ -119,7 +119,7 @@ export default class MusicPlayerControl extends Component{
 	componentDidMount(){
 		this.props.setPlayer(this.refs.myAudio);
 		this.refs.myAudio.addEventListener('ended',this.playNextMusic)
-		this.refs.myAudio.volume = 0.5;
+		this.refs.myAudio.volume = 1;
 		this.refs.myAudio.oncanplay=()=>{this.props.setMusicStatus(!this.refs.myAudio.paused)};
 		
 		//this.refs.myAudio.addEventListener('timeupdate',()=>{console.log(this.refs.myAudio.currentTime)})
