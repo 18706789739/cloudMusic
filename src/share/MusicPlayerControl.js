@@ -24,7 +24,7 @@ import {setPlayer,fetchMusicList,fetchMusic,setMusicStatus,setMusicOnIndex} from
 })
 export default class MusicPlayerControl extends Component{
 	componentWillMount(){
-		this.props.fetchMusicList(733787899);
+		this.props.fetchMusicList(478466765);
 	}
 
 	playNextMusic = (statu = 1)=>{

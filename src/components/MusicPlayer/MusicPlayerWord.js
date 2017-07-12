@@ -80,9 +80,19 @@ export default class MusicPlayerWord extends Component {
 		} = this.state;
 		// 歌词行高
 		const rowLineHeight = 30;
-		var _I_ = 0;
 		
-		// 不注释自己都忘了这里啥意思
+		if(lyricRow+1 > musiclyric.length-1 ){return};
+		if(Player.currentTime>musiclyric[lyricRow+1][0] ){
+			this.setState({lyricRow: lyricRow+1})
+			let scroll = 0;
+			for(let i = 0; i<lyricRow+1; i++){
+				// 这里可以优化一下
+				scroll += self.refs['lyric'+i].offsetHeight;
+			}	
+			self.refs.myWord.setAttribute('style','transform:translateY(-'+scroll +'px);-webkit-transform:translateY(-'+ scroll +'px)')
+		}
+
+		/*// 不注释自己都忘了这里啥意思
 		while (true){
 			//如果i 大于歌词长度 跳出循环
 			if(_I_ > musiclyric.length-1){
@@ -110,7 +120,7 @@ export default class MusicPlayerWord extends Component {
 				
 				self.refs.myWord.setAttribute('style','transform:translateY(-'+scroll +'px);-webkit-transform:translateY(-'+ scroll +'px)')
 			})
-		}
+		}*/
 	}
 
 	componentWillUpdate(){
