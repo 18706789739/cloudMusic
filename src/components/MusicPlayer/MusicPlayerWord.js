@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {binary_search} from 'tool'
 var classNames = require('classnames');
 require('./MusicPlayerWord.css')
 
@@ -41,7 +42,7 @@ export default class MusicPlayerWord extends Component {
 		result.sort(function(a, b) {
 			return a[0] - b[0];
 		});
-		console.log(result)
+		//console.log(result)
 		return result;
 	}
 
@@ -55,15 +56,15 @@ export default class MusicPlayerWord extends Component {
 			return musiclyric.map((o,index)=>{
 				let active = lyricRow == index ? true : false;
 				return (
-					<div>
-						<div key={index} ref={`lyric${index}`} className={classNames('music-word-row',{'music-word-row-active':active})}>{o[1]}</div>
-						{null}					
+					<div key={index} ref={`lyric${index}`} className={classNames({'music-word-row-active':active})}>
+						<div className='music-word-row'>{o[1]}</div>
+						{o[2] ? <div className='music-word-row'>{o[2]}</div> : null}
 					</div>
 				);
 			})
 		}else{
 			return <div className="music-word-row">{musiclyric}</div>;
-		}
+		};
 	}
 
 	componentDidMount(){
@@ -110,7 +111,6 @@ export default class MusicPlayerWord extends Component {
 				self.refs.myWord.setAttribute('style','transform:translateY(-'+scroll +'px);-webkit-transform:translateY(-'+ scroll +'px)')
 			})
 		}
-		
 	}
 
 	componentWillUpdate(){
@@ -137,28 +137,39 @@ export default class MusicPlayerWord extends Component {
 			fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id='+musiclist.privileges[onindex].id)
 			.then(response => response.json())
 			.then(json => {
-				console.log(json)
 				if(json.nolyric === true){
 					self.setState({
 						musiclyric:'纯音乐请欣赏'
 					})
 				}else{
-
+					/*将获取到的歌词转为数组*/
 					let musiclyric = self.parseLyric(json.lrc.lyric);
-					let tlyric = []
+					/*定义翻译歌词*/
+					let tlyric = [];
+					let tlyricTimes = [];
+					/*如果有翻译，将翻译歌词push至歌词数组*/
 					if(json.tlyric.lyric!=null){
+						/*将翻译字符串转为数组*/
 						tlyric = self.parseLyric(json.tlyric.lyric);
+						/*将翻译时间导出至数组*/
+						for(let i=0,len=tlyric.length ; i<len ; i++){
+							tlyricTimes.push(tlyric[i][0])
+						}
+
+						/*查找与歌词对应的翻译歌词*/
 						for(let i =0,len = musiclyric.length; i<len; i++){
-							if(musiclyric[i][0] == tlyric[0][0]){
-								console.log(i)
-								break;
-							}
+
+							let _index = binary_search(tlyricTimes,musiclyric[i][0]);
+								if(_index !== false){
+									 musiclyric[i].push(tlyric[_index][1])
+									 //console.log(tlyric,tlyric[_index][1])
+								};
+
 						}
 					}
-
+					//console.log(musiclyric)
 					self.setState({
 						musiclyric:musiclyric,
-						tlyric:tlyric,
 						lyricRow:0
 					},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
 				}

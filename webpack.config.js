@@ -64,6 +64,10 @@ module.exports = {
 
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    alias: {
+        '~': APP_PATH,
+        'tool':APP_PATH+'/tool/tool.js'
+    }
   },
 };
