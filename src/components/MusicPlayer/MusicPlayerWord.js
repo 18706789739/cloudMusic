@@ -69,6 +69,7 @@ export default class MusicPlayerWord extends Component {
 
 	componentDidMount(){
 		this.fetMusicLyric(this.props.onindex);
+		this.props.Player.addEventListener('timeupdate',this.lyricScroll)
 	}
 
 	lyricScroll = ()=>{
@@ -132,10 +133,14 @@ export default class MusicPlayerWord extends Component {
 			this.setState({
 				musiclyric:'加载歌词中···'
 			})
-			this.props.Player.removeEventListener('timeupdate',this.lyricScroll)
+			//this.props.Player.removeEventListener('timeupdate',this.lyricScroll)
 			this.refs.myWord.setAttribute('style','transform:translateY(0px);transition:all 0s;-webkit-transition:all 0s');
 			this.fetMusicLyric(nextProps.onindex)
 		};
+	}
+
+	componentWillUnmount(){
+		this.props.Player.removeEventListener('timeupdate',this.lyricScroll)
 	}
 
 	fetMusicLyric = (onindex) => {
@@ -187,7 +192,7 @@ export default class MusicPlayerWord extends Component {
 					self.setState({
 						musiclyric:musiclyric,
 						lyricRow:0
-					},self.props.Player.addEventListener('timeupdate',this.lyricScroll))
+					})
 				}
 				
 			})
