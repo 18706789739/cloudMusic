@@ -12,6 +12,7 @@
 	height: 32rem;
 	overflow: auto;
 	z-index: 99;
+	background-color: #FFF;
 }
 .music-list-window-open{
 	transform:translateY(-32rem);

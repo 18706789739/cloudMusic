@@ -151,14 +151,20 @@ export default class MusicPlayerWord extends Component {
 					self.setState({
 						musiclyric:'纯音乐请欣赏'
 					})
+				}else if(!('lrc' in json)){
+					self.setState({
+						musiclyric:'暂无歌词'
+					})
 				}else{
 					/*将获取到的歌词转为数组*/
+					console.log(json)
 					let musiclyric = self.parseLyric(json.lrc.lyric);
 					/*定义翻译歌词*/
 					let tlyric = [];
 					let tlyricTimes = [];
 					/*如果有翻译，将翻译歌词push至歌词数组*/
 					if(json.tlyric.lyric!=null){
+						//console.log('歌词数组:'+json.tlyric.lyric)
 						/*将翻译字符串转为数组*/
 						tlyric = self.parseLyric(json.tlyric.lyric);
 						/*将翻译时间导出至数组*/
